@@ -11,10 +11,10 @@ const saveUser = async (firebaseUid, name, email, createdAt, updatedAt) => {
     };
 
     await firestore.collection("users").doc(firebaseUid).set(userData);
-    return { success: true, message: "User added successfully" };
+    return userData;
   } catch (error) {
     console.error("Error saving user:", error);
-    return { success: false, message: "Error saving user", error: error };
+    throw new Error("Error saving user");
   }
 };
 

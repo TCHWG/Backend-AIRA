@@ -1,36 +1,33 @@
-class ApiError {
-  constructor(code, message, details = null) {
-    this.success = false;
-    this.code = code;
-    this.status = this.getStatusText(code);
-    this.message = message;
-    if (details) this.details = details;
+// src/errors/api_error.js
+
+class ApiError extends Error {
+  constructor(code, status, message, details = null) {
+      super(message);
+      this.success = false;
+      this.code = code;
+      this.status = status;
+      this.message = message;
   }
 
-  getStatusText(code) {
-    const statusTexts = {
-      400: "Bad Request",
-      401: "Unauthorized",
-      404: "Not Found",
-      500: "Internal Server Error",
-    };
-    return statusTexts[code] || "Error";
+  static badRequest(message, details = null) {
+      return new ApiError(400, 'Bad Request', message, details);
   }
 
-  static badRequest(msg, details = null) {
-    return new ApiError(400, msg, details);
+  static unauthorized(message, details = null) {
+      return new ApiError(401, 'Unauthorized', message, details);
   }
 
-  static unauthorized(msg) {
-    return new ApiError(401, msg);
+  static forbidden(message, details = null) {
+      return new ApiError(403, 'Forbidden', message, details);
   }
 
-  static notFound(msg) {
-    return new ApiError(404, msg);
+  static notFound(message, details = null) {
+      return new ApiError(404, 'Not Found', message, details);
   }
 
-  static internalServerError(msg) {
-    return new ApiError(500, msg);
+  static internalServerError(message, details = null) {
+      return new ApiError(500, 'Internal Server Error', message, details);
   }
 }
+
 module.exports = ApiError;

@@ -1,3 +1,4 @@
+// config/firestoreConfig.js
 const fs = require("fs");
 const path = require("path");
 const admin = require("firebase-admin");
@@ -41,4 +42,6 @@ try {
 }
 
 const firestore = admin.firestore();
-module.exports = firestore;
+const auth = admin.auth(); // Initialize the Auth service
+
+module.exports = { firestore, auth };

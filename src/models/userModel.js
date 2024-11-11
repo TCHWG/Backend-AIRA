@@ -1,5 +1,5 @@
 // models/userModel.js
-const { firestore } = require("../config/firestoreConfig");
+const { firestore } = require("../config/firebaseConfig");
 const { z } = require('zod'); // Add input validation
 
 const userSchema = z.object({
@@ -67,7 +67,7 @@ class UserModel {
     try {
       const userRef = firestore.collection("users").doc(userID);
       const doc = await userRef.get();
-      
+
       if (!doc.exists) {
         throw new Error("User not found");
       }
@@ -83,7 +83,7 @@ class UserModel {
     try {
       const usersRef = firestore.collection("users");
       const snapshot = await usersRef.where("email", "==", email).limit(1).get();
-      
+
       if (snapshot.empty) {
         throw new Error("User not found");
       }
@@ -105,7 +105,7 @@ class UserModel {
         updatedAt: new Date().toISOString()
       }
     };
-  
+
     // Validate before updating
     try {
       userSchema.parse({
@@ -122,7 +122,7 @@ class UserModel {
       }
       throw error;
     }
-  
+
     Object.assign(this, updateData);
     return this.save();
   }

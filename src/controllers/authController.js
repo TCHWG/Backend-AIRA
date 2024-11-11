@@ -1,6 +1,6 @@
 // controllers/authController.js
 const AuthService = require("../services/authService");
-const ApiError = require("../errors/api_error");
+const ApiError = require("../errors/apiError");
 
 class AuthController {
     static async registerUser(req, res) {
@@ -22,7 +22,7 @@ class AuthController {
             });
         } catch (error) {
             console.error("Registration controller error:", error);
-            
+
             if (error instanceof ApiError) {
                 res.status(error.code).json({
                     success: false,
@@ -61,7 +61,7 @@ class AuthController {
             });
         } catch (error) {
             console.error("Sign in controller error:", error);
-            
+
             if (error instanceof ApiError) {
                 res.status(error.code).json({
                     success: false,

@@ -1,7 +1,7 @@
 // services/authService.js
-const { auth } = require('../config/firestoreConfig');
+const { auth } = require('../config/firebaseConfig');
 const UserModel = require("../models/userModel");
-const ApiError = require("../errors/api_error");
+const ApiError = require("../errors/apiError");
 
 class AuthService {
     static validatePassword(password) {
@@ -68,7 +68,7 @@ class AuthService {
         try {
             const userCredential = await auth.signInWithEmailAndPassword(email, password);
             const user = await UserModel.getUserById(userCredential.user.uid);
-            
+
             await user.update({
                 metadata: {
                     lastSignInTime: new Date().toISOString()

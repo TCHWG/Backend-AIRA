@@ -1,24 +1,27 @@
 // controllers/authController.js
-const AuthService = require("../services/authService");
+const authService = require("../services/authService");
 const ApiError = require("../errors/apiError");
 
 class AuthController {
     static async registerUser(req, res) {
         try {
-            const { email, password, name } = req.body;
+            const { email, password, name, photoUrl } = req.body;
 
+            // Validate required fields
             if (!email || !password || !name) {
                 throw ApiError.badRequest("Email, password, and name are required");
             }
 
-            const user = await AuthService.registerUser(email, password, name);
+            // Register the user using the service
+            const user = await authService.registerUser(email, password, name, photoUrl);
 
+            // Respond with success message and user data
             res.status(201).json({
                 success: true,
                 code: 201,
                 status: "Created",
                 message: "Registration successful",
-                data: user.toJSON()
+                data: user,
             });
         } catch (error) {
             console.error("Registration controller error:", error);
@@ -28,7 +31,7 @@ class AuthController {
                     success: false,
                     code: error.code,
                     status: error.status,
-                    message: error.message
+                    message: error.message,
                 });
             } else {
                 const serverError = ApiError.internalServerError("Registration failed");
@@ -36,7 +39,7 @@ class AuthController {
                     success: false,
                     code: serverError.code,
                     status: serverError.status,
-                    message: serverError.message
+                    message: serverError.message,
                 });
             }
         }

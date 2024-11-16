@@ -85,6 +85,96 @@ class AuthController {
             }
         }
     }
+
+    static async requestPasswordReset(req, res) {
+        try {
+            const { email } = req.body;
+            const result = await authService.requestPasswordReset(email);
+            res.status(200).json({
+                success: true,
+                code: 200,
+                status: "Success",
+                message: result.message,
+            });
+        } catch (error) {
+            console.error("Request password reset controller error:", error);
+            if (error instanceof ApiError) {
+                res.status(error.code).json({
+                    success: false,
+                    code: error.code,
+                    status: error.status,
+                    message: error.message,
+                });
+            } else {
+                res.status(500).json({
+                    success: false,
+                    code: 500,
+                    status: "Internal Server Error",
+                    message: "Failed to request password reset",
+                });
+            }
+        }
+    }
+
+    static async verifyResetToken(req, res) {
+        try {
+            const { email, token } = req.body;
+            const result = await authService.verifyResetToken(email, token);
+            res.status(200).json({
+                success: true,
+                code: 200,
+                status: "Success",
+                message: result.message,
+            });
+        } catch (error) {
+            console.error("Verify reset token controller error:", error);
+            if (error instanceof ApiError) {
+                res.status(error.code).json({
+                    success: false,
+                    code: error.code,
+                    status: error.status,
+                    message: error.message,
+                });
+            } else {
+                res.status(500).json({
+                    success: false,
+                    code: 500,
+                    status: "Internal Server Error",
+                    message: "Failed to verify reset token",
+                });
+            }
+        }
+    }
+
+    static async resetPassword(req, res) {
+        try {
+            const { email, token, newPassword } = req.body;
+            const result = await authService.resetPassword(email, token, newPassword);
+            res.status(200).json({
+                success: true,
+                code: 200,
+                status: "Success",
+                message: result.message,
+            });
+        } catch (error) {
+            console.error("Reset password controller error:", error);
+            if (error instanceof ApiError) {
+                res.status(error.code).json({
+                    success: false,
+                    code: error.code,
+                    status: error.status,
+                    message: error.message,
+                });
+            } else {
+                res.status(500).json({
+                    success: false,
+                    code: 500,
+                    status: "Internal Server Error",
+                    message: "Failed to reset password",
+                });
+            }
+        }
+    }
 }
 
 module.exports = AuthController;

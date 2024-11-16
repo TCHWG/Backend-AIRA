@@ -1,7 +1,7 @@
 // src/errors/api_error.js
 
 class ApiError extends Error {
-    constructor(code, status, message, details = null) {
+    constructor(code, status, message = null) {
         super(message);
         this.success = false;
         this.code = code;

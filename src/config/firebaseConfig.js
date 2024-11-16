@@ -20,9 +20,10 @@ try {
   serviceAccount = JSON.parse(
     fs.readFileSync(path.resolve(serviceAccountPath), "utf8")
   );
-} catch (error) {
+} catch (err) { // Changed 'error' to 'err' and using it in the console.error
   console.error(
-    "Error reading or parsing service account file. Ensure the path is correct and file is in valid JSON format."
+    "Error reading or parsing service account file:", err.message,
+    "\nEnsure the path is correct and file is in valid JSON format."
   );
   throw new Error(
     "Failed to initialize Firebase - could not read service account file."
@@ -34,9 +35,10 @@ try {
     credential: admin.credential.cert(serviceAccount),
   });
   console.log("Firebase Admin initialized successfully.");
-} catch (error) {
+} catch (err) { // Changed 'error' to 'err' and using it in the console.error
   console.error(
-    "Error initializing Firebase Admin SDK. Please check your credentials and configuration."
+    "Error initializing Firebase Admin SDK:", err.message,
+    "\nPlease check your credentials and configuration."
   );
   throw new Error("Failed to initialize Firebase Admin SDK.");
 }

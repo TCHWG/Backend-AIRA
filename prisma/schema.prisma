@@ -8,14 +8,26 @@ datasource db {
 }
 
 model User {
-  uid           String    @id @default(uuid()) @db.VarChar(36)
-  email         String    @db.VarChar(100)
-  name          String?   @db.VarChar(100)
-  photo_url     String?   @db.VarChar(512)
-  provider_id   String?   @db.VarChar(20)
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt
+  uid           String          @id @default(uuid()) @db.VarChar(36)
+  email         String          @unique @db.VarChar(100)
+  name          String?         @db.VarChar(100)
+  photo_url     String?         @db.VarChar(512)
+  provider_id   String?         @db.VarChar(20)
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
   last_login_at DateTime?
+  passwordResets PasswordReset[]
 
   @@map("users")
+}
+
+model PasswordReset {
+  id        Int      @id @default(autoincrement())
+  email     String   @db.VarChar(100)
+  token     String   @db.VarChar(100)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [email], references: [email])
+
+  @@map("password_resets")
 }

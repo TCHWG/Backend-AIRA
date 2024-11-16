@@ -53,14 +53,17 @@ class AuthController {
                 throw ApiError.badRequest("Email and password are required");
             }
 
-            const user = await AuthService.signInWithEmailPassword(email, password);
+            const { user, idToken } = await authService.signInWithEmailPassword(email, password);
 
             res.status(200).json({
                 success: true,
                 code: 200,
                 status: "Success",
                 message: "Sign in successful",
-                data: user.toJSON()
+                data: {
+                    user,
+                    token: idToken,
+                },
             });
         } catch (error) {
             console.error("Sign in controller error:", error);
@@ -70,15 +73,14 @@ class AuthController {
                     success: false,
                     code: error.code,
                     status: error.status,
-                    message: error.message
+                    message: error.message,
                 });
             } else {
-                const serverError = ApiError.internalServerError("Sign in failed");
-                res.status(serverError.code).json({
+                res.status(500).json({
                     success: false,
-                    code: serverError.code,
-                    status: serverError.status,
-                    message: serverError.message
+                    code: 500,
+                    status: "Internal Server Error",
+                    message: error.message || "Sign in failed",
                 });
             }
         }

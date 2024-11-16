@@ -43,7 +43,6 @@ try {
   throw new Error("Failed to initialize Firebase Admin SDK.");
 }
 
-const firestore = admin.firestore();
 const auth = admin.auth(); // Initialize the Auth service
 
-module.exports = { firestore, auth };
+module.exports = { auth };

@@ -1,5 +1,8 @@
-const { firestore: db, auth } = require("../config/firebaseConfig");
+const { PrismaClient } = require("@prisma/client");
+const { auth } = require("../config/firebaseConfig");
 const ApiError = require("../errors/apiError");
+
+const prisma = new PrismaClient();
 
 async function verifyToken(req, res, next) {
   const idToken = req.headers.authorization?.split("Bearer ")[1];
@@ -10,19 +13,28 @@ async function verifyToken(req, res, next) {
 
   try {
     const decodedToken = await auth.verifyIdToken(idToken);
-    req.user = decodedToken;
-    const { uid, name = "", email, picture = "" } = decodedToken;
+    console.log("Decoded Token:", decodedToken);
 
-    const userRef = db.collection("users").doc(uid);
-    const userDoc = await userRef.get();
+    const { uid, email, name = null, picture: photo_url = null } = decodedToken;
 
-    let user;
+    if (!uid) {
+      throw new Error("UID missing in token");
+    }
 
-    if (userDoc.exists) {
-      user = userDoc.data();
-    } else {
-      user = { uid, name, email, picture };
-      await userRef.set(user);
+    let user = await prisma.user.findUnique({
+      where: { uid },
+    });
+
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          uid,
+          email,
+          name,
+          photo_url,
+          provider_id: "google.com",
+        },
+      });
     }
 
     req.user = user;

@@ -2,8 +2,8 @@ const userService = require('../services/userService');
 const ApiError = require('../errors/apiError');
 
 async function updateUserName(req, res) {
-    const { uid } = req.params;
     const { name } = req.body;
+    const { uid } = req.user; 
 
     if (!name || name.trim() === "") {
         const error = ApiError.badRequest('Name is required');

@@ -13,7 +13,6 @@ async function verifyToken(req, res, next) {
 
   try {
     const decodedToken = await auth.verifyIdToken(idToken);
-    console.log("Decoded Token:", decodedToken);
 
     const { uid, email, name = null, picture: photo_url = null } = decodedToken;
 

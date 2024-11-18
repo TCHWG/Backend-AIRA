@@ -1,19 +1,19 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function getAllCourses() {
+async function getAllMusic() {
   try {
-    return await prisma.courses.findMany({
+    return await prisma.musics.findMany({
       select: {
         name: true,
         difficulty: true,
-        course_description: true,
+        music_description: true,
       },
     });
   } catch (error) {
-    console.error("Error fetching courses:", error);
+    console.error("Error fetching music:", error);
     throw error;
   }
 }
 
-module.exports = { getAllCourses };
+module.exports = { getAllMusic };

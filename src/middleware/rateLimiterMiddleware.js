@@ -1,14 +1,19 @@
 const rateLimit = require('express-rate-limit');
 const ApiError = require('../errors/apiError');
 
+const windowMs = 10 * 60 * 1000;
+const maxRequests = 100;
+
 const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000,
-  max: 100,
+  windowMs,
+  max: maxRequests,
   standardHeaders: true,
   legacyHeaders: false,
 
   handler: (req, res, next) => {
-    next(ApiError.tooManyRequests("You have exceeded the 100 requests in 15 mins limit!"));
+    const minutes = windowMs / (60 * 1000);
+    const message = `You have exceeded the ${maxRequests} requests in ${minutes} minutes limit!`;
+    next(ApiError.tooManyRequests(message));
   },
 });
 

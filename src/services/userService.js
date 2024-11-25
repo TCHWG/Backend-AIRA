@@ -2,6 +2,26 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const ApiError = require('../errors/apiError');
 
+async function findOrCreateUser(uid, email, name, photo) {
+    let user = await prisma.user.findUnique({ where: { uid } });
+
+    if (!user) {
+        user = await prisma.user.create({
+            data: {
+                uid,
+                email,
+                name,
+                photo_url: photo,
+                provider_id: "google.com",
+                created_at: new Date(),
+                updated_at: new Date()
+            },
+        });
+    }
+
+    return user;
+}
+
 async function updateUserName(uid, newName) {
     const user = await prisma.user.findUnique({
         where: { uid },
@@ -20,5 +40,6 @@ async function updateUserName(uid, newName) {
 }
 
 module.exports = {
+    findOrCreateUser,
     updateUserName,
 };

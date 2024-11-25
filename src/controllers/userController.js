@@ -26,6 +26,49 @@ const upload = multer({
     fileFilter: fileFilter,
 }).single('photo');
 
+async function syncUser(req, res, next) {
+    const { uid, email, name, photo } = req.user;
+
+    try {
+        const user = await userService.findOrCreateUser(uid, email, name, photo);
+
+        if (!user.created_at) {
+            return res.status(201).json({
+                success: true,
+                code: 201,
+                status: "Created",
+                message: "User created successfully",
+                data: {
+                    uid: user.uid,
+                    email: user.email,
+                    name: user.name,
+                    photo_url: user.photo_url,
+                    provider_id: "google.com",
+                    created_at: user.created_at,
+                    updated_at: user.updated_at,
+                    last_login_at: user.created_at,
+                },
+            });
+        }
+
+        // Jika user sudah ada
+        return res.status(200).json({
+            success: true,
+            code: 200,
+            status: "OK",
+            message: "User already exists",
+            data: user,
+        });
+    } catch (error) {
+        if (error instanceof ApiError) {
+            return next(error);
+        }
+
+        console.error("Error syncing user:", error.message);
+        next(ApiError.internalServerError("Failed to sync user"));
+    }
+}
+
 async function updateUserName(req, res) {
     const { name } = req.body;
     const { uid } = req.user;
@@ -141,6 +184,7 @@ async function uploadProfilePhoto(req, res) {
 }
 
 module.exports = {
+    syncUser,
     updateUserName,
     uploadProfilePhoto,
 };

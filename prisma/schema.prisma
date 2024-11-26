@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  uid           String          @id @default(uuid()) @db.VarChar(36)
-  email         String          @unique @db.VarChar(100)
-  name          String?         @db.VarChar(100)
-  photo_url     String?         @db.VarChar(512)
-  provider_id   String?         @db.VarChar(20)
-  created_at    DateTime        @default(now())
-  updated_at    DateTime        @updatedAt
-  last_login_at DateTime?
+  uid            String          @id @default(uuid()) @db.VarChar(36)
+  email          String          @unique @db.VarChar(100)
+  name           String?         @db.VarChar(100)
+  photo_url      String?         @db.VarChar(512)
+  provider_id    String?         @db.VarChar(20)
+  created_at     DateTime        @default(now())
+  updated_at     DateTime        @updatedAt
+  last_login_at  DateTime?
   passwordResets PasswordReset[]
-
+  evaluations    Evaluations[]
+  userMusics     User_musics[]
 
   @@map("users")
 }
@@ -33,7 +34,6 @@ model PasswordReset {
   @@map("password_resets")
 }
 
-
 enum Difficulty {
   easy
   medium
@@ -41,17 +41,56 @@ enum Difficulty {
 }
 
 model Musics {
-  music_id          BigInt     @id @default(autoincrement())
-  name              String   @db.VarChar(60)
-  author            String   @db.VarChar(60)
+  id                BigInt        @id @default(autoincrement())
+  name              String        @db.VarChar(60)
+  author            String        @db.VarChar(60)
   difficulty        Difficulty
-  music_description String?  @db.VarChar(255)
-  music_path        String   @db.VarChar(255)
-  midi_path         String   @db.VarChar(255)
-  preview_path      String   @db.VarChar(255)
+  music_description String?       @db.VarChar(255)
+  music_path        String        @db.VarChar(255)
+  midi_path         String        @db.VarChar(255)
+  preview_path      String        @db.VarChar(255)
+  evaluations       Evaluations[]
+  userMusics        User_musics[]
+
+  @@map("musics")
 }
 
+model User_musics {
+  id             BigInt        @id @default(autoincrement())
+  user_id        String        @db.VarChar(36)
+  music_id       BigInt
+  progress_state ProgressState
+  user           User          @relation(fields: [user_id], references: [uid])
+  music          Musics        @relation(fields: [music_id], references: [id])
 
+  @@map("users_musics")
+  @@unique([user_id, music_id])
+}
 
+model Evaluations {
+  id            Int        @id @default(autoincrement())
+  user_id       String     @db.VarChar(36)
+  music_id      BigInt
+  name          String
+  accuracy      Float      @db.Double
+  user          User       @relation(fields: [user_id], references: [uid])
+  music         Musics     @relation(fields: [music_id], references: [id])
+  mistakes      Mistakes[]
 
+  @@map("evaluations")
+}
 
+model Mistakes {
+  id            Int         @id @default(autoincrement())
+  evaluation_id Int
+  timestamp     String      @db.VarChar(8)
+  evaluation    Evaluations @relation(fields: [id], references: [id])
+
+  @@map("mistakes")
+}
+
+enum ProgressState {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}

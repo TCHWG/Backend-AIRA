@@ -43,10 +43,12 @@ enum Difficulty {
 model Musics {
   music_id          BigInt     @id @default(autoincrement())
   name              String   @db.VarChar(60)
+  author            String   @db.VarChar(60)
   difficulty        Difficulty
   music_description String?  @db.VarChar(255)
   music_path        String   @db.VarChar(255)
   midi_path         String   @db.VarChar(255)
+  preview_path      String   @db.VarChar(255)
 }
 
 

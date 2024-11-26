@@ -6,6 +6,7 @@ async function getAllMusic() {
     return await prisma.musics.findMany({
       select: {
         name: true,
+        author: true,
         difficulty: true,
         music_description: true,
       },

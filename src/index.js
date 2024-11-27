@@ -9,7 +9,7 @@ const express = require('express');
 const app = express();
 const cors = require("cors");
 
-
+app.set('trust proxy', 1);
 app.use(cors());
 // Middleware to parse JSON requests
 app.use(express.json());

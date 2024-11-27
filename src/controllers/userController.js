@@ -26,6 +26,39 @@ const upload = multer({
     fileFilter: fileFilter,
 }).single('photo');
 
+async function getUserProfile(req, res) {
+    const { uid } = req.user;
+
+    try {
+        const userData = await userService.getUserDetails(uid);
+
+        return res.status(200).json({
+            success: true,
+            code: 200,
+            status: 'ok',
+            message: 'Profile retrieved successfully',
+            data: userData,
+        });
+    } catch (error) {
+        if (error instanceof ApiError) {
+            return res.status(error.code).json({
+                success: error.success,
+                code: error.code,
+                status: error.status,
+                message: error.message,
+            });
+        } else {
+            const internalError = ApiError.internalServerError('An unexpected error occurred');
+            return res.status(internalError.code).json({
+                success: internalError.success,
+                code: internalError.code,
+                status: internalError.status,
+                message: internalError.message,
+            });
+        }
+    }
+}
+
 async function updateUserName(req, res) {
     const { name } = req.body;
     const { uid } = req.user;
@@ -141,6 +174,7 @@ async function uploadProfilePhoto(req, res) {
 }
 
 module.exports = {
+    getUserProfile,
     updateUserName,
     uploadProfilePhoto,
 };

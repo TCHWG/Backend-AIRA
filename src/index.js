@@ -3,6 +3,7 @@ const PORT = process.env.PORT || 5000;
 const apiErrorHandler = require("./errors/apiErrorHandler");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const userMusicsRoutes = require("./routes/userMusicsRoutes");
 const musicRoutes = require("./routes/musicRoutes");
 const verifyToken = require("./middleware/authMiddleware");
 const express = require('express');
@@ -19,7 +20,11 @@ app.use("/api/auth", authRoutes);
 // Use the user routes
 app.use("/api", verifyToken, userRoutes);
 
-app.use("/api/musics", verifyToken, musicRoutes)
+// Use the musics routes
+app.use("/api/musics", verifyToken, musicRoutes);
+
+// Use the userMusic routes
+app.use("/api/user/musics", verifyToken, userMusicsRoutes);
 
 app.use(apiErrorHandler);
 

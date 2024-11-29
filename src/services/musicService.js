@@ -9,6 +9,8 @@ async function getAllMusic() {
         author: true,
         difficulty: true,
         music_description: true,
+        music_path: true,
+        midi_path: true
       },
     });
   } catch (error) {

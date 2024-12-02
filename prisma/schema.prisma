@@ -48,6 +48,7 @@ model Musics {
   music_description String?       @db.VarChar(255)
   music_path        String        @db.VarChar(255)
   midi_path         String        @db.VarChar(255)
+  note_path         String?       @db.VarChar(255)
   preview_path      String        @db.VarChar(255)
   evaluations       Evaluations[]
   userMusics        User_musics[]

@@ -10,7 +10,8 @@ async function getAllMusic() {
         difficulty: true,
         music_description: true,
         music_path: true,
-        midi_path: true
+        midi_path: true,
+        note_path: true
       },
     });
   } catch (error) {

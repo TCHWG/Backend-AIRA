@@ -23,7 +23,8 @@ class UserMusicsController {
         author: music.author,
         difficulty: music.difficulty,
         music_path: music.music_path,
-        midi_path: music.midi_path
+        midi_path: music.midi_path,
+        note_path: music.note_path
       }));
 
       res.status(200).json({

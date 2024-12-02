@@ -13,7 +13,8 @@ async function getUserMusicsDetails(uid) {
           author: true,
           difficulty: true,
           music_path: true,
-          midi_path: true
+          midi_path: true,
+          note_path: true
         }
       },
     },

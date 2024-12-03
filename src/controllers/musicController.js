@@ -36,6 +36,37 @@ class MusicController {
       }
     }
   }
+
+  static async getMusicDetail(req, res, next) {
+    const { musicId } = req.params;
+
+    if (!musicId) {
+      return next(ApiError.badRequest('Music ID parameter is missing or invalid.'));
+    }
+
+    try {
+      const music = await musicService.getMusicById(musicId);
+
+      if (!music) {
+        throw ApiError.notFound(`Music with ID ${musicId} not found`);
+      }
+
+      res.status(200).json({
+        success: true,
+        code: 200,
+        status: "ok",
+        message: `Successfully retrieved music: ${music.name}`,
+        data: music,
+      });
+    } catch (error) {
+      console.error("Error in getMusicById:", error);
+      if (error instanceof ApiError) {
+        return next(error);
+      } else {
+        return next(ApiError.internalServerError('Failed to retrieve music by ID'));
+      }
+    }
+  }
 }
 
 module.exports = MusicController;

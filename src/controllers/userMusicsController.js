@@ -19,6 +19,7 @@ class UserMusicsController {
       }
 
       const musicData = userMusicsExists.map(music => ({
+        id: Number(music.id),
         name: music.name,
         author: music.author,
         difficulty: music.difficulty,

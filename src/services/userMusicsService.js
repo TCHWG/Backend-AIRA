@@ -9,6 +9,7 @@ async function getUserMusicsDetails(uid) {
     include: {
       music: {
         select: {
+          id: true,
           name: true,
           author: true,
           difficulty: true,

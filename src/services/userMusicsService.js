@@ -26,7 +26,11 @@ async function getUserMusicsDetails(uid) {
   }
 
   // Mengambil detail musik dari userMusics
-  return userMusics.map(userMusic => userMusic.music);
+  return userMusics.map(userMusic => ({
+    music: userMusic.music,
+    user_midi_path: userMusic.user_midi_path,
+    user_note_path: userMusic.user_note_path
+  }));
 }
 
 

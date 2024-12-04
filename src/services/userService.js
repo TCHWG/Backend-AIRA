@@ -16,26 +16,10 @@ async function getUserDetails(uid) {
         throw ApiError.notFound('User not found');
     }
 
-    const userMusicFinishedCount = await prisma.user_musics.count({
-        where: {
-            user_id: uid,
-            progress_state: 'COMPLETED',
-        },
-    });
-
-    const userMusicInProgressCount = await prisma.user_musics.count({
-        where: {
-            user_id: uid,
-            progress_state: 'IN_PROGRESS',
-        },
-    });
-
     return {
         name: user.name,
         email: user.email,
         photo_url: user.photo_url,
-        user_music_finished: userMusicFinishedCount,
-        user_music_inprogress: userMusicInProgressCount,
     };
 }
 

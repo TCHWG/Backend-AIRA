@@ -18,14 +18,16 @@ class UserMusicsController {
         });
       }
 
-      const musicData = userMusicsExists.map(music => ({
+      const musicData = userMusicsExists.map(({ music, user_midi_path, user_note_path }) => ({
         id: Number(music.id),
         name: music.name,
         author: music.author,
         difficulty: music.difficulty,
         music_path: music.music_path,
         midi_path: music.midi_path,
-        note_path: music.note_path
+        note_path: music.note_path,
+        user_midi_path,
+        user_note_path,
       }));
 
       res.status(200).json({

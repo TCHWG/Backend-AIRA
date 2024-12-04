@@ -60,6 +60,8 @@ model User_musics {
   id             BigInt        @id @default(autoincrement())
   user_id        String        @db.VarChar(36)
   music_id       BigInt
+  user_midi_path String        @db.VarChar(255)
+  user_note_path String        @db.VarChar(255)
   user           User          @relation(fields: [user_id], references: [uid])
   music          Musics        @relation(fields: [music_id], references: [id])
 

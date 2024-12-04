@@ -18,7 +18,7 @@ model User {
   last_login_at  DateTime?
   passwordResets PasswordReset[]
   evaluations    Evaluations[]
-  userMusics     User_musics[]
+  users_musics     User_musics[]
 
   @@map("users")
 }
@@ -51,7 +51,7 @@ model Musics {
   note_path         String?       @db.VarChar(255)
   preview_path      String        @db.VarChar(255)
   evaluations       Evaluations[]
-  userMusics        User_musics[]
+  users_musics        User_musics[]
 
   @@map("musics")
 }
@@ -66,7 +66,6 @@ model User_musics {
   music          Musics        @relation(fields: [music_id], references: [id])
 
   @@map("users_musics")
-  @@unique([user_id, music_id])
 }
 
 model Evaluations {
@@ -85,7 +84,7 @@ model Mistakes {
   id            Int         @id @default(autoincrement())
   evaluation_id Int
   timestamp     String      @db.VarChar(8)
-  evaluation    Evaluations @relation(fields: [id], references: [id])
+  evaluation    Evaluations @relation(fields: [evaluation_id], references: [id])
 
   @@map("mistakes")
 }

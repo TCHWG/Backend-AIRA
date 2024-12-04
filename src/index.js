@@ -5,6 +5,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const userMusicsRoutes = require("./routes/userMusicsRoutes");
 const musicRoutes = require("./routes/musicRoutes");
+const evalRoutes = require("./routes/evaluationRoutes");
 const verifyToken = require("./middleware/authMiddleware");
 const express = require('express');
 const app = express();
@@ -25,6 +26,9 @@ app.use("/api/musics", verifyToken, musicRoutes);
 
 // Use the userMusic routes
 app.use("/api/user/musics", verifyToken, userMusicsRoutes);
+
+// Use the evaluations routes
+app.use("/api", verifyToken, evalRoutes);
 
 app.use(apiErrorHandler);
 

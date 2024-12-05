@@ -40,7 +40,7 @@ Service details:
 runtime: nodejs
 env: standar
 manual_scaling:
-    instances: 2
+    instances: 1
 ```
 ---
 ### Cloud Run
@@ -53,7 +53,8 @@ Service details:
 Location        : asia-southeast2
 Memory          : 512MB
 CPU             : 1 vCPU
-Max Instances   : 10
+Min Instances   : 0
+Max Instances   : 1
 ```
 ---
 ### Cloud Storage

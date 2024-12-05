@@ -17,8 +17,7 @@ model User {
   updated_at     DateTime        @updatedAt
   last_login_at  DateTime?
   passwordResets PasswordReset[]
-  evaluations    Evaluations[]
-  users_musics     User_musics[]
+  users_musics   User_musics[]
 
   @@map("users")
 }
@@ -50,8 +49,7 @@ model Musics {
   midi_path         String        @db.VarChar(255)
   note_path         String?       @db.VarChar(255)
   preview_path      String        @db.VarChar(255)
-  evaluations       Evaluations[]
-  users_musics        User_musics[]
+  users_musics      User_musics[]
 
   @@map("musics")
 }
@@ -62,20 +60,20 @@ model User_musics {
   music_id       BigInt
   user_midi_path String        @db.VarChar(255)
   user_note_path String        @db.VarChar(255)
+  createdAt      DateTime      @default(now())
   user           User          @relation(fields: [user_id], references: [uid])
   music          Musics        @relation(fields: [music_id], references: [id])
+  evaluations    Evaluations[]
 
   @@map("users_musics")
 }
 
 model Evaluations {
-  id            Int        @id @default(autoincrement())
-  user_id       String     @db.VarChar(36)
-  music_id      BigInt
-  name          String
-  user          User       @relation(fields: [user_id], references: [uid])
-  music         Musics     @relation(fields: [music_id], references: [id])
-  mistakes      Mistakes[]
+  id             Int         @id @default(autoincrement())
+  user_musics_id BigInt
+  name           String
+  users_musics   User_musics @relation(fields: [user_musics_id], references: [id])
+  mistakes       Mistakes[]
 
   @@map("evaluations")
 }

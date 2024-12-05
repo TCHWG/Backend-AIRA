@@ -17,40 +17,53 @@ async function createEvaluation(musicId, userId, file) {
 
         const { predictions, user_midi_path } = response.data;
 
-        // Create a new evaluation
-        const evaluation = await prisma.evaluations.create({
+        // Create a new user music path using the path from axios response
+        const userMusic = await prisma.user_musics.create({
             data: {
                 user_id: userId,
                 music_id: Number(musicId),
-                name: predictions[0].label,
-            },
-        });
-
-        // Create mistakes for the evaluation
-        for (const prediction of predictions) {
-            await prisma.mistakes.create({
-                data: {
-                    evaluation_id: evaluation.id,
-                    timestamp: prediction.window_start.toString(),
-                },
-            });
-        }
-
-        // Create a new user music path using the path from axios response
-        await prisma.user_musics.create({
-            data: {
-                user_id: userId, // Directly setting user_id
-                music_id: Number(musicId), // Directly setting music_id
                 user_midi_path: user_midi_path,
                 user_note_path: '',
             }
         });
 
+        // Extract createdAt timestamp
+        const createdAt = userMusic.createdAt;
+
+        // Format date and time
+        const formattedDate = createdAt.toLocaleDateString('en-GB');
+        const formattedTime = createdAt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+        // Create a new evaluation
+        const evaluation = await prisma.evaluations.create({
+            data: {
+                user_musics_id: userMusic.id, // Use the ID of the created userMusic
+                name: predictions[0].label,
+            },
+        });
+
+        // Create mistakes for the evaluation
+        const mistakesData = predictions.map(prediction => ({
+            evaluation_id: evaluation.id,
+            timestamp: prediction.window_start.toString(),
+        }));
+
+        await prisma.mistakes.createMany({
+            data: mistakesData,
+        });
+
+        // Prepare the response data
         return {
-            name: predictions[0].label,
-            mistakes: predictions.map(prediction => ({
-                timestamp: prediction.window_start.toString(),
-            })),
+            date: formattedDate, // Date from createdAt
+            time: formattedTime, // Time from createdAt
+            user_midi_path: userMusic.user_midi_path,
+            user_note_path: userMusic.user_note_path,
+            evaluations: [{
+                name: evaluation.name,
+                mistakes: mistakesData.map(mistake => ({
+                    timestamp: mistake.timestamp,
+                })),
+            }]
         };
     } catch (error) {
         console.error("Error creating evaluation:", error);
@@ -58,6 +71,27 @@ async function createEvaluation(musicId, userId, file) {
     }
 }
 
+async function getAllEvaluations(musicId, userId) {
+    return await prisma.evaluations.findMany({
+        where: {
+            users_musics: {
+                user_id: userId,
+                music_id: Number(musicId),
+            },
+        },
+        include: {
+            mistakes: true,
+            users_musics: {
+                include: {
+                    user: true,
+                    music: true,
+                },
+            },
+        },
+    });
+}
+
 module.exports = {
     createEvaluation,
+    getAllEvaluations,
 };

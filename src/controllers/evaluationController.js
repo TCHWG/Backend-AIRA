@@ -34,27 +34,25 @@ async function getAllEvaluations(req, res, next) {
             const formattedTime = createdAt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
 
             // Find or create the users_musics entry in the accumulator
-            let group = acc.find(entry => entry.users_musics.user_musics_id === users_musics.id.toString());
+            let group = acc.find(entry => entry.user_musics_id === users_musics.id.toString());
 
             if (!group) {
                 group = {
-                    users_musics: {
-                        user_musics_id: users_musics.id.toString(),
+                    user_musics_id: users_musics.id.toString(),
+                    user_midi_path: users_musics.user_midi_path,
+                    user_note_path: users_musics.user_note_path,
+                    date: formattedDate,
+                    time: formattedTime,
+                    music: {
                         music_id: users_musics.music_id.toString(),
-                        user_midi_path: users_musics.user_midi_path,
-                        user_note_path: users_musics.user_note_path,
-                        date: formattedDate,
-                        time: formattedTime,
-                        music: {
-                            name: users_musics.music.name,
-                            author: users_musics.music.author,
-                            difficulty: users_musics.music.difficulty,
-                            music_description: users_musics.music.music_description,
-                            music_path: users_musics.music.music_path,
-                            midi_path: users_musics.music.midi_path,
-                            note_path: users_musics.music.note_path,
-                            preview_path: users_musics.music.preview_path
-                        }
+                        name: users_musics.music.name,
+                        author: users_musics.music.author,
+                        difficulty: users_musics.music.difficulty,
+                        music_description: users_musics.music.music_description,
+                        music_path: users_musics.music.music_path,
+                        midi_path: users_musics.music.midi_path,
+                        note_path: users_musics.music.note_path,
+                        preview_path: users_musics.music.preview_path
                     },
                     evaluations: []
                 };
@@ -64,8 +62,9 @@ async function getAllEvaluations(req, res, next) {
 
             // Add the current evaluation to the evaluations array
             group.evaluations.push({
-                ...evaluationData,
+                id: evaluation.id,
                 user_musics_id: evaluation.user_musics_id.toString(),
+                name: evaluationData.name,
                 mistakes: mistakes.map(mistake => ({
                     timestamp: mistake.timestamp
                 }))
@@ -85,6 +84,7 @@ async function getAllEvaluations(req, res, next) {
         next(error);
     }
 }
+
 
 module.exports = {
     createEvaluation,

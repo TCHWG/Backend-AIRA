@@ -9,6 +9,11 @@ Backend and cloud computing are at the core of the AIRA architecture, ensuring s
 https://documenter.getpostman.com/
 ```
 
+### Backend Environment Setup Guide:
+
+🚀 **Get started with setting up your backend environment**  
+[Click here for Backend Setup Guide](https://github.com/TCHWG/cloud-document/blob/main/Backend%20Environment.md)
+
 ## Technology Used
 
 ### Cloud SQL

@@ -30,8 +30,11 @@ async function getAllEvaluations(req, res, next) {
             const { users_musics, mistakes, ...evaluationData } = evaluation;
             const createdAt = new Date(users_musics.createdAt);
 
-            const formattedDate = createdAt.toLocaleDateString('en-GB');
-            const formattedTime = createdAt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
+            // Format date and time for Indonesian time zone with 4-digit year
+            const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'Asia/Jakarta' };
+            const timeOptions = { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', hour12: false };
+            const formattedDate = new Intl.DateTimeFormat('id-ID', dateOptions).format(createdAt);
+            const formattedTime = new Intl.DateTimeFormat('id-ID', timeOptions).format(createdAt);
 
             // Find or create the users_musics entry in the accumulator
             let group = acc.find(entry => entry.user_musics_id === users_musics.id.toString());
@@ -84,6 +87,7 @@ async function getAllEvaluations(req, res, next) {
         next(error);
     }
 }
+
 
 
 module.exports = {

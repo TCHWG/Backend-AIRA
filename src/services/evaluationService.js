@@ -30,9 +30,11 @@ async function createEvaluation(musicId, userId, file) {
         // Extract createdAt timestamp
         const createdAt = userMusic.createdAt;
 
-        // Format date and time
-        const formattedDate = createdAt.toLocaleDateString('en-GB');
-        const formattedTime = createdAt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
+        // Format date and time for Indonesian time zone with 4-digit year
+        const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'Asia/Jakarta' };
+        const timeOptions = { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', hour12: false };
+        const formattedDate = new Intl.DateTimeFormat('id-ID', dateOptions).format(createdAt);
+        const formattedTime = new Intl.DateTimeFormat('id-ID', timeOptions).format(createdAt);
 
         // Create a new evaluation
         const evaluation = await prisma.evaluations.create({
@@ -54,8 +56,8 @@ async function createEvaluation(musicId, userId, file) {
 
         // Prepare the response data
         return {
-            date: formattedDate, // Date from createdAt
-            time: formattedTime, // Time from createdAt
+            date: formattedDate, // Date from createdAt in Indonesian format
+            time: formattedTime, // Time from createdAt in Indonesian format
             user_midi_path: userMusic.user_midi_path,
             user_note_path: userMusic.user_note_path,
             evaluations: [{
@@ -70,6 +72,7 @@ async function createEvaluation(musicId, userId, file) {
         throw new ApiError(500, 'Failed to create evaluation');
     }
 }
+
 
 async function getAllEvaluations(musicId, userId) {
     return await prisma.evaluations.findMany({

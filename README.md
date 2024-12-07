@@ -82,6 +82,9 @@ Location        : asia-southeast2
 Storage Class   : Standard
 ```
 ---
+## Serverless Architecture
+<p align="center" ><img src="https://github.com/ryhnfhrza/assets/blob/main/Untitled%20(4).png" width="1000" height="250"/> </p>
+
 ### For Complete Pricing and Service Details:
 
 🔍 **Explore the full documentation and pricing for all cloud services in our repository**  

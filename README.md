@@ -57,6 +57,19 @@ Min Instances   : 0
 Max Instances   : 1
 ```
 ---
+### Compute Engine
+
+<img src="https://github.com/ryhnfhrza/assets/blob/main/google-compute-engine.svg" width="50" height="50"/>
+
+Service details:
+
+```YAML
+Location        : asia-east1
+Memory          : 16GB
+GPU             : NVIDIA T4
+Machine type    : n1-standard-1
+```
+---
 ### Cloud Storage
 
 <img src="https://symbols.getvecta.com/stencil_4/47_google-cloud-storage.fee263d33a.svg" width="50" height="50"/>

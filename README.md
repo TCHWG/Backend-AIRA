@@ -1,5 +1,8 @@
 # AIRA - Cloud Computing
 
+<p align="center" ><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" width="420"/> </p>
+
+
 ## Overview
 
 Backend and cloud computing are at the core of the AIRA architecture, ensuring seamless communication between applications, AI models, and cloud storage. We use Express.js for API development and Flask for audio processing tasks.

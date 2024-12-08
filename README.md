@@ -1,6 +1,12 @@
 # AIRA - Cloud Computing
 
-<p align="center" ><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" width="420"/> </p>
+<br><br>
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" width="420"/>
+</p>
+<br>
+
+
 
 
 ## Overview

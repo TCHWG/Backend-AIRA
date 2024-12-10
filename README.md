@@ -101,7 +101,7 @@ Storage Class   : Standard
 
 ---
 ## Database Architecture (ERD)
-<p align="center" ><img src="https://github.com/ryhnfhrza/assets/blob/main/drawSQL-image-export-2024-12-10.png" width="1000" height="400"/> </p>
+<p align="center" ><img src="https://github.com/ryhnfhrza/assets/blob/main/drawSQL-image-export-2024-12-10%20(1).png" width="1000" height="400"/> </p>
 
 
 

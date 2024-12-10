@@ -55,15 +55,15 @@ model Musics {
 }
 
 model User_musics {
-  id             BigInt        @id @default(autoincrement())
-  user_id        String        @db.VarChar(36)
-  music_id       BigInt
-  user_midi_path String        @db.VarChar(255)
-  user_note_path String        @db.VarChar(255)
-  createdAt      DateTime      @default(now())
-  user           User          @relation(fields: [user_id], references: [uid])
-  music          Musics        @relation(fields: [music_id], references: [id])
-  evaluations    Evaluations[]
+  id               BigInt        @id @default(autoincrement())
+  user_id          String        @db.VarChar(36)
+  music_id         BigInt
+  user_midi_path   String        @db.VarChar(255)
+  user_record_path String        @db.VarChar(255)
+  createdAt        DateTime      @default(now())
+  user             User          @relation(fields: [user_id], references: [uid])
+  music            Musics        @relation(fields: [music_id], references: [id])
+  evaluations      Evaluations[]
 
   @@map("users_musics")
 }
@@ -72,6 +72,8 @@ model Evaluations {
   id             Int         @id @default(autoincrement())
   user_musics_id BigInt
   name           String
+  description    String      @db.VarChar(255)
+  confidence     Float
   users_musics   User_musics @relation(fields: [user_musics_id], references: [id])
   mistakes       Mistakes[]
 
@@ -79,10 +81,11 @@ model Evaluations {
 }
 
 model Mistakes {
-  id            Int         @id @default(autoincrement())
-  evaluation_id Int
-  timestamp     String      @db.VarChar(8)
-  evaluation    Evaluations @relation(fields: [evaluation_id], references: [id])
+  id                     Int         @id @default(autoincrement())
+  evaluation_id          Int
+  note_index             String      @db.VarChar(8)
+  additional_description String      @db.VarChar(255)
+  evaluation             Evaluations @relation(fields: [evaluation_id], references: [id])
 
   @@map("mistakes")
 }

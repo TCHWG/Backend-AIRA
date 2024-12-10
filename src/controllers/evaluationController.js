@@ -4,6 +4,15 @@ async function createEvaluation(req, res, next) {
     const { musicId, userId } = req.params;
     const file = req.file;
 
+    if (!file) {
+        return res.status(400).json({
+            success: false,
+            code: 400,
+            status: 'error',
+            message: 'File not uploaded',
+        });
+    }
+
     try {
         const evaluationData = await evaluationService.createEvaluation(musicId, userId, file);
 
@@ -43,7 +52,7 @@ async function getAllEvaluations(req, res, next) {
                 group = {
                     user_musics_id: users_musics.id.toString(),
                     user_midi_path: users_musics.user_midi_path,
-                    user_note_path: users_musics.user_note_path,
+                    user_record_path: users_musics.user_record_path, // Updated field
                     date: formattedDate,
                     time: formattedTime,
                     music: {
@@ -68,8 +77,11 @@ async function getAllEvaluations(req, res, next) {
                 id: evaluation.id,
                 user_musics_id: evaluation.user_musics_id.toString(),
                 name: evaluationData.name,
+                description: evaluationData.description,
+                confidence: evaluationData.confidence, // Include confidence
                 mistakes: mistakes.map(mistake => ({
-                    timestamp: mistake.timestamp
+                    note_index: mistake.note_index,
+                    additional_description: mistake.additional_description,
                 }))
             });
 
@@ -87,8 +99,6 @@ async function getAllEvaluations(req, res, next) {
         next(error);
     }
 }
-
-
 
 module.exports = {
     createEvaluation,

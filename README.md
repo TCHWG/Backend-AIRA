@@ -100,6 +100,10 @@ Storage Class   : Standard
 [Click here for Pricing & Details](https://github.com/TCHWG/cloud-document/blob/main/Cloud%20Requirements.md)
 
 ---
+## Database Architecture (ERD)
+<p align="center" ><img src="https://github.com/ryhnfhrza/assets/blob/main/drawSQL-image-export-2024-12-10.png" width="1000" height="400"/> </p>
+
+
 
 
 

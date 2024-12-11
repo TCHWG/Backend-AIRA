@@ -56,7 +56,7 @@ async function getAllEvaluations(req, res, next) {
                     date: formattedDate,
                     time: formattedTime,
                     music: {
-                        music_id: users_musics.music_id.toString(),
+                        id: users_musics.music_id.toString(),
                         name: users_musics.music.name,
                         author: users_musics.music.author,
                         difficulty: users_musics.music.difficulty,

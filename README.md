@@ -15,7 +15,7 @@ Backend and cloud computing are at the core of the AIRA architecture, ensuring s
 
 ## REST API Documentation
 ```
-https://documenter.getpostman.com/
+https://documenter.getpostman.com/view/27794773/2sAYHwJQMf
 ```
 
 ### Backend Environment Setup Guide:
@@ -92,7 +92,7 @@ Storage Class   : Standard
 ```
 ---
 ## Serverless Architecture
-<p align="center" ><img src="https://github.com/ryhnfhrza/assets/blob/main/Untitled%20(11).png" width="1000" height="250"/> </p>
+<p align="center" ><img src="https://github.com/ryhnfhrza/assets/blob/main/AIRA%20Cloud%20Architecture%20Diagram%20with%20CICD.png" width="1000" height="250"/> </p>
 
 ### For Complete Pricing and Service Details:
 

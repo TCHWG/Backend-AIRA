@@ -151,7 +151,33 @@ async function getAllEvaluations(musicId, userId) {
     });
 }
 
+async function getAllEvaluationsByUserId(userId) {
+    return await prisma.evaluations.findMany({
+        where: {
+            users_musics: {
+                user_id: userId,
+            },
+        },
+        include: {
+            mistakes: true,
+            users_musics: {
+                include: {
+                    user: true,
+                    music: true,
+                },
+            },
+        },
+    });
+}
+
+module.exports = {
+    // Fungsi lainnya
+    getAllEvaluationsByUserId,
+};
+
+
 module.exports = {
     createEvaluation,
     getAllEvaluations,
+    getAllEvaluationsByUserId
 };

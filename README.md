@@ -23,6 +23,58 @@ https://documenter.getpostman.com/view/27794773/2sAYHwJQMf
 🚀 **Get started with setting up your backend environment**  
 [Click here for Backend Setup Guide](https://github.com/TCHWG/cloud-document/blob/main/Backend%20Environment.md)
 
+### Installation
+To set up the project locally, follow these steps:
+
+Clone the repository:
+```
+https://github.com/TCHWG/Backend-AIRA.git
+```
+
+Install the dependencies:
+```
+npm install
+```
+
+Create a .env file in the root directory and add the following environment variables:
+
+```
+FIREBASE_API_KEY="firebase api key that you already setup"
+EMAIL_USER="your email to send reset code for user"
+EMAIL_PASS="your email password"
+
+DATABASE_URL="your database url"
+
+# Google Storage
+GOOGLE_CLOUD_PROJECT_ID="your google cloud id project"
+GOOGLE_CLOUD_KEYFILE_PATH=./credentialKey/storageAdmin.json
+GOOGLE_CLOUD_BUCKET_NAME="your bucket name"
+```
+
+### Database Configuration
+The project uses MySQL as the database and prisma as the ORM. Ensure that you have MySQL installed and running on your machine.
+
+Setup Prisma
+```
+npx prisma generate
+```
+
+Load the schema on the database using prisma
+```
+npx prisma migrate dev
+```
+### Running the Project
+Start the server:
+```
+npm start
+```
+
+For development:
+```
+npm run start
+```
+The server will run on http://0.0.0.0:3000.
+
 ## Technology Used
 
 ### Cloud SQL
